@@ -1,0 +1,6 @@
+<div class="result-container">
+  <h2>Your Score: {{ score }} / {{ totalScore }}</h2>
+  <p>{{ feedback }}</p>
+  <p>Percentage: {{ percentage | number:'1.0-2' }}%</p>
+  <button (click)="retakeQuiz()">Take Another Quiz</button>
+</div>

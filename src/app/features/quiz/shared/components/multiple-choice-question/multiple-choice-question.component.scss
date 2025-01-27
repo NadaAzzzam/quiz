@@ -1,0 +1,17 @@
+.multiple-choice-question ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.multiple-choice-question li {
+  margin: 10px 0;
+}
+
+.multiple-choice-question label {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.multiple-choice-question input {
+  margin-right: 10px;
+}

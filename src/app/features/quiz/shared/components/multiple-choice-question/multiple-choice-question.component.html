@@ -1,0 +1,16 @@
+<div class="multiple-choice-question">
+  <ul>
+    <li *ngFor="let option of options">
+      <label>
+        <input
+          type="radio"
+          name="multipleChoice"
+          [value]="option"
+          [checked]="selectedAnswer === option"
+          (change)="selectOption(option)"
+        />
+        {{ option }}
+      </label>
+    </li>
+  </ul>
+</div>

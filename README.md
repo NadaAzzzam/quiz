@@ -1,108 +1,173 @@
-# Angular Form with Undo/Redo Functionality
+Angular Quiz Application
+A modern Angular application showcasing a dynamic quiz interface with category selection, question flow, and result calculation. The application supports multiple question types and is designed for future extensibility.
 
-A modern Angular application showcasing form management with undo/redo capabilities using NgRx store, featuring visual feedback and Material Design components.
+🚀 Demo
+screen-capture.webm
 
-## 🚀 DEMO
-[screen-capture (10).webm](https://github.com/user-attachments/assets/829ea30a-a3ea-42c5-8845-45d7f6286e66)
+🚀 Features
+Category Selection: Choose from available quiz categories.
 
-## 🚀 Features
+Dynamic Question Rendering: Supports multiple question types (multiple-choice, boolean, free-text).
 
-- Form state management with NgRx
-- Undo/Redo functionality
-- Visual feedback with highlight animations
-- Material Design components
-- Form validation
-- Responsive design
-- Redux DevTools integration
+Undo/Redo Functionality: Navigate between questions with "Previous" and "Next" buttons.
 
-## 🛠️ Technologies Used
+Result Calculation: Calculate scores based on question difficulty.
 
-- Angular 17+
-- NgRx Store
-- Angular Material
-- RxJS
-- TypeScript
+Future Extensibility: Easily add new question types without modifying core logic.
 
-## 📋 Prerequisites
+Responsive Design: Works seamlessly on all devices.
 
-- Node.js (version 18.x or higher)
-- npm (version 9.x or higher)
-- Angular CLI (version 17.x)
+🛠️ Technologies Used
+Angular 17+
 
-## 🔧 Installation
+Lodash (for utility functions)
 
-1. Clone the repository:
-```bash
+RxJS (for reactive programming)
+
+TypeScript
+
+Angular Material (optional for UI components)
+
+📋 Prerequisites
+Node.js (version 18.x or higher)
+
+npm (version 9.x or higher)
+
+Angular CLI (version 17.x)
+
+🔧 Installation
+Clone the repository:
+
+bash
+Copy
 git clone [repository-url]
-```
+Install dependencies:
 
-2. Install dependencies:
-```bash
+bash
+Copy
 npm install
-```
+Run the development server:
 
-3. Run the development server:
-```bash
+bash
+Copy
 ng serve
-```
+Open your browser and navigate to http://localhost:4200.
 
-4. Open your browser and navigate to `http://localhost:4200`
-
-## 🏗️ Project Structure
-
-```
+🏗️ Project Structure
+Copy
 src/
 ├── app/
-│   ├── components/
-│   ├── directives/
-│   │   └── highlight/
+│   ├── category-selection/          # Category selection screen
+│   ├── quiz-questions/              # Quiz question flow and result calculation
+│   ├── multiple-choice-question/    # Multiple-choice question component
+│   ├── boolean-question/            # Boolean question component
+│   ├── free-text-question/          # Free-text question component
 │   ├── services/
-│   └── store/
-│       ├── actions/
-│       ├── reducers/
-│       ├── selectors/
-│       └── utils/
-├── styles/
-└── environments/
-```
+│   │   └── quiz.service.ts          # Quiz data management
+│   │   └── question-type-registry.service.ts  # Dynamic component registry
+│   └── store/                       # Optional: State management with NgRx
+├── assets/
+│   └── quiz-data.json               # Quiz questions in JSON format
+└── styles/                          # Global styles
+💡 Usage
+Category Selection
+Select a category from the available options to start the quiz.
 
-## 💡 Usage
+Question Flow
+Answer questions based on the selected category.
 
-The form includes fields for:
-- Name (required)
-- Email (required, with validation)
-- Notifications toggle
-- Role selection (required)
+Questions are sorted by difficulty (easy → medium → hard).
 
-### Undo/Redo Features:
-- Click the Undo button to revert to the previous state
-- Click the Redo button to restore a previously undone state
-- Visual highlight feedback when changes occur
+Input controls are dynamically rendered based on the question type:
 
-### Store Implementation
-```
+Multiple-choice: Radio buttons.
+
+Boolean: True/False buttons.
+
+Free-text: Text area.
+
+Navigation
+Use the "Previous" and "Next" buttons to navigate between questions.
+
+The "Next" button is disabled until an answer is selected.
+
+Result Calculation
+After completing all questions, view your score:
+
+Easy: 1 point.
+
+Medium: 3 points.
+
+Hard: 5 points.
+
+🛠️ Store Implementation (Optional)
+Copy
 🏗️ feat: Add NgRx store implementation
 
-- Configure store with undo/redo functionality
+- Configure store for quiz state management
 - Set up actions, reducers, and selectors
-- Implement form state management
-```
+- Implement undo/redo functionality for question navigation
+✨ Dynamic Question Rendering
+Copy
+✨ feat: Add dynamic component rendering
 
-### Highlight Feature
-```
-✨ feat: Add highlight animation directive
+- Create a registry for question types
+- Use ComponentFactoryResolver to load components dynamically
+- Support future question types without modifying core logic
+🔧 Adding New Question Types
+Create a new component for the question type (e.g., NewTypeQuestionComponent).
 
-- Create highlight directive
-- Implement animation styles
-- Add trigger mechanism for undo/redo actions
-```
+Register the new component in the QuestionTypeRegistryService:
 
-### DevTools Integration
-```
-🔧 feat: Configure Redux DevTools
+typescript
+Copy
+this.register('newtype', NewTypeQuestionComponent);
+The application will automatically render the new question type.
 
-- Add DevTools configuration
-- Set up store debugging capabilities
-- Implement runtime checks
-```
+📋 Example Quiz Data
+The quiz data is stored in src/assets/quiz-data.json and follows this structure:
 
+json
+Copy
+[
+  {
+    "category": "History",
+    "type": "multiple",
+    "difficulty": "hard",
+    "question": "Who was the leader of the Mongol Empire in the 13th century?",
+    "correct_answer": "Genghis Khan",
+    "incorrect_answers": ["Kublai Khan", "Tamerlane", "Atilla the Hun"]
+  },
+  {
+    "category": "History",
+    "type": "boolean",
+    "difficulty": "easy",
+    "question": "The Earth revolves around the Sun in approximately 365 days.",
+    "correct_answer": "True",
+    "incorrect_answers": ["False"]
+  }
+]
+🚀 Future Enhancements
+Progress Bar: Show the user's progress through the quiz.
+
+Timer: Add a timer for each question or the entire quiz.
+
+API Integration: Fetch quiz data from an external API.
+
+User Authentication: Allow users to log in and save their quiz results.
+
+📜 License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+📧 Contact
+For questions or feedback, please contact:
+
+Your Name
+
+Email: your.email@example.com
+
+GitHub: your-github-profile
+
+Enjoy building and extending the Angular Quiz Application! 🚀
+
+This README follows the same syntax and structure as your example, making it visually appealing and easy to read. Let me know if you need further adjustments!

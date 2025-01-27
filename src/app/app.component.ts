@@ -1,20 +1,9 @@
-import { Component, Inject, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar'; // Import MatToolbarModule
-import { HighlightDirective } from './shared/directives/highlight/highlight.directive';
-import { UndoRedoFormService } from './shared/services/und-redo-form.store.service';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +13,6 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
     MatTabsModule,
     MatIconModule,
     MatToolbarModule,
-    RouterLink,
-    RouterLinkActive,
     RouterOutlet
   ],
 

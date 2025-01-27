@@ -1,0 +1,17 @@
+<div class="quiz-questions-container">
+  <app-quiz-progress-bar [current]="currentQuestionIndex + 1" [total]="questions.length"></app-quiz-progress-bar>
+
+  <ng-template #questionContainer></ng-template>
+
+  <div class="navigation-buttons">
+    <button (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">
+      Previous
+    </button>
+    <button
+      (click)="nextQuestion()"
+      [disabled]="isNextDisabled()"
+    >
+      {{ currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next' }}
+    </button>
+  </div>
+</div>

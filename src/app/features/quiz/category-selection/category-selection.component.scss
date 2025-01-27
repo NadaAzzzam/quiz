@@ -1,0 +1,28 @@
+.category-selection {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.category-selection ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.category-selection li {
+  margin: 10px 0;
+}
+
+.category-selection button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #76c7c0;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.category-selection button:hover {
+  background-color: #5aa9a4;
+}

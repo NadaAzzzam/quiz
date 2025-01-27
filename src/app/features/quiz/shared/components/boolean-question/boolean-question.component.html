@@ -1,0 +1,16 @@
+<div class="boolean-question">
+  <ul>
+    <li *ngFor="let option of options">
+      <label>
+        <input
+          type="radio"
+          name="boolean"
+          [value]="option"
+          [checked]="selectedAnswer === option"
+          (change)="selectOption(option)"
+        />
+        {{ option }}
+      </label>
+    </li>
+  </ul>
+</div>
