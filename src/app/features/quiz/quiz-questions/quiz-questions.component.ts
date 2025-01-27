@@ -11,7 +11,7 @@ import {
 
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
-import { QuestionComponent } from '../shared/models/question';
+import { AnsweredQuestion, QuestionComponent } from '../shared/models/question';
 import { QuizService } from '../shared/services/quiz.service';
 import { QuestionTypeRegistryService } from '../shared/services/question-type-registry.service';
 import { MultipleChoiceQuestionComponent } from '../shared/components/multiple-choice-question/multiple-choice-question.component';
@@ -36,6 +36,7 @@ export class QuizQuestionsComponent implements AfterViewInit {
 
   @ViewChild('questionContainer', { read: ViewContainerRef })
   questionContainer!: ViewContainerRef;
+  answeredQuestions: AnsweredQuestion[] = [];
 
   componentRef!: ComponentRef<QuestionComponent>;
 
@@ -45,7 +46,7 @@ export class QuizQuestionsComponent implements AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     // Register existing question types
@@ -85,32 +86,44 @@ export class QuizQuestionsComponent implements AfterViewInit {
     this.totalScore = this.quizService.calculateTotalScore(this.questions);
   }
 
- /**
-   * Dynamically loads the component corresponding to the current question's type.
-   */
- loadQuestionComponent(): void {
-  const currentQuestion = this.questions[this.currentQuestionIndex];
-  const component = this.questionTypeRegistry.getComponent(currentQuestion.type);
+  /**
+    * Dynamically loads the component corresponding to the current question's type.
+    */
+  loadQuestionComponent(): void {
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    const component = this.questionTypeRegistry.getComponent(currentQuestion.type);
 
-  if (!component) {
-    throw new Error(`No component registered for question type: ${currentQuestion.type}`);
+    if (!component) {
+      throw new Error(`No component registered for question type: ${currentQuestion.type}`);
+    }
+
+    // Clear any existing components
+    this.questionContainer?.clear();
+
+    // Create the component directly without ComponentFactoryResolver
+    this.componentRef = this.questionContainer.createComponent<QuestionComponent>(component);
+
+    // Set input properties
+    this.componentRef.instance.question = currentQuestion;
+    this.componentRef.instance.selectedAnswer = this.userAnswers.get(this.currentQuestionIndex) || '';
+
+    // Subscribe to output events
+    this.componentRef.instance.answerSelected.subscribe((answer: string) => {
+      this.userAnswers.set(this.currentQuestionIndex, answer);
+      const isCorrect = answer.trim().toLowerCase() === currentQuestion.correct_answer.trim().toLowerCase();
+
+      // Push the answered question to the array
+      this.answeredQuestions[this.currentQuestionIndex] = {
+        question: currentQuestion.question,
+        userAnswer: answer,
+        correctAnswer: currentQuestion.correct_answer,
+        isCorrect: isCorrect,
+        difficulty: currentQuestion.difficulty,
+        isExpanded: false // Initially collapsed
+      };
+    });
+
   }
-
-  // Clear any existing components
-  this.questionContainer?.clear();
-
-  // Create the component directly without ComponentFactoryResolver
-  this.componentRef = this.questionContainer.createComponent<QuestionComponent>(component);
-
-  // Set input properties
-  this.componentRef.instance.question = currentQuestion;
-  this.componentRef.instance.selectedAnswer = this.userAnswers.get(this.currentQuestionIndex) || '';
-
-  // Subscribe to output events
-  this.componentRef.instance.answerSelected.subscribe((answer: string) => {
-    this.userAnswers.set(this.currentQuestionIndex, answer);
-  });
-}
 
 
   /**
@@ -148,7 +161,8 @@ export class QuizQuestionsComponent implements AfterViewInit {
   submitQuiz(): void {
     this.currentScore = this.calculateScore();
     // Navigate to the result component with the score
-    this.router.navigate(['/result'], { state: { score: this.currentScore, total: this.totalScore } });
+    this.router.navigate(['/result'], { state: { score: this.currentScore, total: this.totalScore, answeredQuestions: this.answeredQuestions } });
+
   }
 
   /**

@@ -27,3 +27,39 @@
 .result-container button:hover {
   background-color: #5aa9a4;
 }
+
+
+.answers-list {
+  margin-top: 20px;
+}
+
+.answer-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.answer-item.correct {
+  background-color: #e6ffed;
+  border-color: #28a745;
+}
+
+.answer-item.incorrect {
+  background-color: #ffe6e6;
+  border-color: #dc3545;
+}
+
+.status {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.status.correct {
+  color: #28a745;
+}
+
+.status.incorrect {
+  color: #dc3545;
+}

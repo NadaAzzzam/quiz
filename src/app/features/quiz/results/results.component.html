@@ -1,6 +1,50 @@
 <div class="result-container">
   <h2>Your Score: {{ score }} / {{ totalScore }}</h2>
   <p>{{ feedback }}</p>
-  <p>Percentage: {{ percentage | number:'1.0-2' }}%</p>
+  <p>Percentage: {{ percentage | number : "1.0-2" }}%</p>
   <button (click)="retakeQuiz()">Take Another Quiz</button>
+  <hr />
+  <div class="row">
+    <!-- Review Section -->
+    <div class="col-8 m-auto">
+      <h3>Review Your Answers</h3>
+      <!-- Expand/Collapse All Buttons -->
+      <div class="mb-3">
+        <button (click)="expandAll()" class="btn btn-primary me-2">
+          Expand All
+        </button>
+        <button (click)="collapseAll()" class="btn btn-secondary">
+          Collapse All
+        </button>
+      </div>
+      @if (isExpanded) {
+
+      <div class="answers-list">
+        <div
+          *ngFor="let aq of answeredQuestions; let i = index"
+          class="answer-item"
+          [ngClass]="{ correct: aq.isCorrect, incorrect: !aq.isCorrect }"
+        >
+          <!-- Clickable Header -->
+          <div class="question-header" (click)="toggleQuestion(i)">
+            <h4 class="fw-bold">Question {{ i + 1 }}: {{ aq.question }}</h4>
+            <span class="toggle-icon">
+              {{ aq.isExpanded ? "▼" : "►" }}
+              <!-- Arrow to indicate expand/collapse -->
+            </span>
+          </div>
+
+          <!-- Expandable Details -->
+          <div *ngIf="aq.isExpanded" class="question-details">
+            <p>Your Answer: {{ aq.userAnswer }}</p>
+            <p>Correct Answer: {{ aq.correctAnswer }}</p>
+            <p>Difficulty: {{ aq.difficulty | titlecase }}</p>
+            <p *ngIf="aq.isCorrect" class="status correct">Correct</p>
+            <p *ngIf="!aq.isCorrect" class="status incorrect">Incorrect</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
 </div>

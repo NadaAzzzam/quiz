@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AnsweredQuestion } from '../shared/models/question';
 
 @Component({
   selector: 'app-results',
@@ -14,20 +15,37 @@ export class ResultsComponent {
   totalScore: number = 0;
   percentage: number = 0;
   feedback: string = '';
-
+  answeredQuestions: AnsweredQuestion[] = [];
+  isExpanded: boolean = false;
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { score: number; total: number };
+    const state = navigation?.extras.state as { score: number; total: number; answeredQuestions: AnsweredQuestion[] };
     if (state) {
       this.score = state.score;
       this.totalScore = state.total;
       this.percentage = this.totalScore ? (this.score / this.totalScore) * 100 : 0;
       this.feedback = this.generateFeedback(this.percentage);
+      this.answeredQuestions = state.answeredQuestions;
+
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
+  // In your component.ts file
+  toggleQuestion(index: number): void {
+    this.answeredQuestions[index].isExpanded = !this.answeredQuestions[index].isExpanded;
+  }
+  // In your component.ts file
+  expandAll(): void {
+    this.answeredQuestions.forEach(aq => aq.isExpanded = true);
+    this.isExpanded = true;
+  }
+
+  collapseAll(): void {
+    this.answeredQuestions.forEach(aq => aq.isExpanded = false);
+    this.isExpanded = false;
+  }
   /**
    * Generates feedback based on the user's score percentage.
    */
